@@ -1,0 +1,25 @@
+social_auth_github.redirect_to_github:
+  path: 'user/login/github'
+  defaults:
+    _controller: '\Drupal\social_auth_github\Controller\GithubAuthController::redirectToGithub'
+  requirements:
+    _role: 'anonymous'
+  options:
+    no_cache: TRUE
+
+social_auth_github.callback:
+  path: 'user/login/github/callback'
+  defaults:
+    _controller: '\Drupal\social_auth_github\Controller\GithubAuthController::callback'
+  requirements:
+    _role: 'anonymous'
+  options:
+    no_cache: TRUE
+
+social_auth_github.settings_form:
+  path: 'admin/config/social-api/social-auth/github'
+  defaults:
+    _title: 'Social Auth Github settings'
+    _form: '\Drupal\social_auth_github\Form\GithubAuthSettingsForm'
+  requirements:
+    _permission: 'administer social api authentication'
