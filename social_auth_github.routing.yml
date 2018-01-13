@@ -3,7 +3,7 @@ social_auth_github.redirect_to_github:
   defaults:
     _controller: '\Drupal\social_auth_github\Controller\GithubAuthController::redirectToGithub'
   requirements:
-    _role: 'anonymous'
+    _access: 'TRUE'
   options:
     no_cache: TRUE
 
@@ -12,7 +12,7 @@ social_auth_github.callback:
   defaults:
     _controller: '\Drupal\social_auth_github\Controller\GithubAuthController::callback'
   requirements:
-    _role: 'anonymous'
+    _access: 'TRUE'
   options:
     no_cache: TRUE
 

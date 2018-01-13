@@ -107,7 +107,6 @@ class GithubAuthSettingsForm extends SocialAuthSettingsForm {
       '#default_value' => $GLOBALS['base_url'] . '/user/login/github/callback',
     ];
 
-
     $form['github_settings']['scopes'] = [
       '#type' => 'textarea',
       '#title' => $this->t('Scopes for API call'),

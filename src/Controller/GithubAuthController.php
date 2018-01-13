@@ -10,7 +10,6 @@ use Drupal\social_auth_github\GithubAuthManager;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\Core\Routing\TrustedRedirectResponse;
 use Symfony\Component\HttpFoundation\RequestStack;
-use Drupal\Core\Logger\LoggerChannelFactoryInterface;
 
 /**
  * Returns responses for Simple Github Connect module routes.
@@ -52,14 +51,6 @@ class GithubAuthController extends ControllerBase {
    */
   private $dataHandler;
 
-
-  /**
-   * The logger channel.
-   *
-   * @var \Drupal\Core\Logger\LoggerChannelFactoryInterface
-   */
-  protected $loggerFactory;
-
   /**
    * GithubAuthController constructor.
    *
@@ -71,26 +62,26 @@ class GithubAuthController extends ControllerBase {
    *   Used to manage authentication methods.
    * @param \Symfony\Component\HttpFoundation\RequestStack $request
    *   Used to access GET parameters.
-   * @param \Drupal\social_auth\SocialAuthDataHandler $social_auth_data_handler
+   * @param \Drupal\social_auth\SocialAuthDataHandler $data_handler
    *   SocialAuthDataHandler object.
-   * @param \Drupal\Core\Logger\LoggerChannelFactoryInterface $logger_factory
-   *   Used for logging errors.
    */
-  public function __construct(NetworkManager $network_manager, SocialAuthUserManager $user_manager, GithubAuthManager $github_manager, RequestStack $request, SocialAuthDataHandler $social_auth_data_handler, LoggerChannelFactoryInterface $logger_factory) {
+  public function __construct(NetworkManager $network_manager,
+                              SocialAuthUserManager $user_manager,
+                              GithubAuthManager $github_manager,
+                              RequestStack $request,
+                              SocialAuthDataHandler $data_handler) {
 
     $this->networkManager = $network_manager;
     $this->userManager = $user_manager;
     $this->githubManager = $github_manager;
     $this->request = $request;
-    $this->dataHandler = $social_auth_data_handler;
-    $this->loggerFactory = $logger_factory;
+    $this->dataHandler = $data_handler;
 
     // Sets the plugin id.
     $this->userManager->setPluginId('social_auth_github');
 
     // Sets the session keys to nullify if user could not logged in.
     $this->userManager->setSessionKeysToNullify(['access_token', 'oauth2state']);
-    $this->setting = $this->config('social_auth_github.settings');
   }
 
   /**
@@ -102,8 +93,7 @@ class GithubAuthController extends ControllerBase {
       $container->get('social_auth.user_manager'),
       $container->get('social_auth_github.manager'),
       $container->get('request_stack'),
-      $container->get('social_auth.social_auth_data_handler'),
-      $container->get('logger.factory')
+      $container->get('social_auth.data_handler')
     );
   }
 
@@ -113,7 +103,7 @@ class GithubAuthController extends ControllerBase {
    * Redirects the user to Github for authentication.
    */
   public function redirectToGithub() {
-    /* @var \League\OAuth2\Client\Provider\Github false $github */
+    /* @var \League\OAuth2\Client\Provider\Github|false $github */
     $github = $this->networkManager->createInstance('social_auth_github')->getSdk();
 
     // If github client could not be obtained.
@@ -143,14 +133,7 @@ class GithubAuthController extends ControllerBase {
    * Github returns the user here after user has authenticated in Github.
    */
   public function callback() {
-    // Checks if user cancel login via Github.
-    $error = $this->request->getCurrentRequest()->get('error');
-    if ($error == 'access_denied') {
-      drupal_set_message($this->t('You could not be authenticated.'), 'error');
-      return $this->redirect('user.login');
-    }
-
-    /* @var \League\OAuth2\Client\Provider\Github false $github */
+    /* @var \League\OAuth2\Client\Provider\Github|false $github */
     $github = $this->networkManager->createInstance('social_auth_github')->getSdk();
 
     // If Github client could not be obtained.
@@ -165,7 +148,7 @@ class GithubAuthController extends ControllerBase {
     $retrievedState = $this->request->getCurrentRequest()->query->get('state');
     if (empty($retrievedState) || ($retrievedState !== $state)) {
       $this->userManager->nullifySessionKeys();
-      drupal_set_message($this->t('Github login failed. Unvalid oAuth2 State.'), 'error');
+      drupal_set_message($this->t('Github login failed. Unvalid OAuth2 State.'), 'error');
       return $this->redirect('user.login');
     }
 
@@ -175,6 +158,7 @@ class GithubAuthController extends ControllerBase {
     $this->githubManager->setClient($github)->authenticate();
 
     // Gets user's info from Github API.
+    /* @var \League\OAuth2\Client\Provider\GithubResourceOwner $github_profile */
     if (!$github_profile = $this->githubManager->getUserInfo()) {
       drupal_set_message($this->t('Github login failed, could not load Github profile. Contact site administrator.'), 'error');
       return $this->redirect('user.login');
