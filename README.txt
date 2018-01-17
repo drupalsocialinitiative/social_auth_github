@@ -17,9 +17,9 @@ Social Auth Github Module is a Github Authentication integration for Drupal. It
 is based on the Social Auth and Social API projects
 
 It adds to the site:
- * A new url: /user/login/dropbox.
- * A settings form on /admin/config/social-api/social-auth/dropbox.
- * A Dropbox logo in the Social Auth Login block.
+ * A new url: /user/login/github.
+ * A settings form on /admin/config/social-api/social-auth/github.
+ * A Github logo in the Social Auth Login block.
 
 
 REQUIREMENTS
@@ -35,7 +35,7 @@ INSTALLATION
 ------------
 
  * Run composer to install the dependencies.
-   composer require "drupal/social_auth_github"
+   composer require "drupal/social_auth_github:^2.0"
 
  * Install the dependencies: Social API and Social Auth.
 
