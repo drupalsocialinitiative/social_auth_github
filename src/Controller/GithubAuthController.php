@@ -118,7 +118,7 @@ class GithubAuthController extends ControllerBase {
     // Generates the URL where the user will be redirected for Github login.
     // If the user did not have email permission granted on previous attempt,
     // we use the re-request URL requesting only the email address.
-    $github_login_url = $this->githubManager->getGithubLoginUrl();
+    $github_login_url = $this->githubManager->getAuthorizationUrl();
 
     $state = $this->githubManager->getState();
 
@@ -158,27 +158,17 @@ class GithubAuthController extends ControllerBase {
     $this->githubManager->setClient($github)->authenticate();
 
     // Gets user's info from Github API.
-    /* @var \League\OAuth2\Client\Provider\GithubResourceOwner $github_profile */
-    if (!$github_profile = $this->githubManager->getUserInfo()) {
+    /* @var \League\OAuth2\Client\Provider\GithubResourceOwner $profile */
+    if (!$profile = $this->githubManager->getUserInfo()) {
       drupal_set_message($this->t('Github login failed, could not load Github profile. Contact site administrator.'), 'error');
       return $this->redirect('user.login');
     }
 
-    // Store the data mapped with data points define is
-    // social_auth_github settings.
-    $data = [];
-    if (!$this->userManager->checkIfUserExists($github_profile->getId())) {
-      $api_calls = explode(PHP_EOL, $this->githubManager->getAPICalls());
-
-      // Iterate through api calls define in settings and try to retrieve them.
-      foreach ($api_calls as $api_call) {
-        $call = $this->githubManager->getExtraDetails($api_call);
-        array_push($data, $call);
-      }
-    }
+    // Gets (or not) extra initial data.
+    $data = $this->userManager->checkIfUserExists($profile->getId()) ? NULL : $this->githubManager->getExtraDetails();
 
     // If user information could be retrieved.
-    return $this->userManager->authenticateUser($github_profile->getName(), $github_profile->getEmail(), $github_profile->getId(), $this->githubManager->getAccessToken(), $github_profile->toArray()['avatar_url'], json_encode($data));
+    return $this->userManager->authenticateUser($profile->getName(), $profile->getEmail(), $profile->getId(), $this->githubManager->getAccessToken(), $profile->toArray()['avatar_url'], $data);
   }
 
 }
