@@ -115,9 +115,7 @@ class GithubAuthController extends ControllerBase {
     // Github service was returned, inject it to $githubManager.
     $this->githubManager->setClient($github);
 
-    // Generates the URL where the user will be redirected for Github login.
-    // If the user did not have email permission granted on previous attempt,
-    // we use the re-request URL requesting only the email address.
+    // Generates the URL where the user will be redirected for authentication.
     $github_login_url = $this->githubManager->getAuthorizationUrl();
 
     $state = $this->githubManager->getState();
@@ -152,10 +150,10 @@ class GithubAuthController extends ControllerBase {
       return $this->redirect('user.login');
     }
 
+    $this->githubManager->setClient($github)->authenticate();
+
     // Saves access token to session.
     $this->dataHandler->set('access_token', $this->githubManager->getAccessToken());
-
-    $this->githubManager->setClient($github)->authenticate();
 
     // Gets user's info from Github API.
     /* @var \League\OAuth2\Client\Provider\GithubResourceOwner $profile */
