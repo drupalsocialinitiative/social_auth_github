@@ -1,7 +1,7 @@
 social_auth_github.redirect_to_github:
   path: 'user/login/github'
   defaults:
-    _controller: '\Drupal\social_auth_github\Controller\GithubAuthController::redirectToGithub'
+    _controller: '\Drupal\social_auth_github\Controller\GithubAuthController::redirectToProvider'
   requirements:
     # Anonymous users can log in, but authenticated users can also associate a new provider.
     _access: 'TRUE'
