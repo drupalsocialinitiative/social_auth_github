@@ -1,7 +1,7 @@
 {
     "name": "drupal/social_auth_github",
     "type": "drupal-module",
-    "description": "Social Auth integration for Github.",
+    "description": "Social Auth integration for GitHub.",
     "keywords": ["Drupal"],
     "license": "GPL-2.0+",
     "homepage": "https://www.drupal.org/project/social_auth_github",

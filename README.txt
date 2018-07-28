@@ -13,13 +13,13 @@ CONTENTS OF THIS FILE
 INTRODUCTION
 ------------
 
-Social Auth Github Module is a Github Authentication integration for Drupal. It
-is based on the Social Auth and Social API projects
+Social Auth GitHub a GitHub Authentication integration for Drupal. It is based
+on the Social Auth and Social API projects
 
 It adds to the site:
  * A new url: /user/login/github.
  * A settings form on /admin/config/social-api/social-auth/github.
- * A Github logo in the Social Auth Login block.
+ * A GitHub logo in the Social Auth Login block.
 
 
 REQUIREMENTS
@@ -47,10 +47,10 @@ INSTALLATION
 CONFIGURATION
 -------------
 
- * Add your Github project OAuth information in
-   Configuration » User Authentication » Github.
+ * Add your GitHub project OAuth information in
+   Configuration » User Authentication » GitHub.
 
- * Place a Social Auth Github block in Structure » Block Layout.
+ * Place a Social Auth Login block in Structure » Block Layout.
 
  * If you already have a Social Auth Login block in the site, rebuild the cache.
 
@@ -58,16 +58,17 @@ CONFIGURATION
 HOW IT WORKS
 ------------
 
-User can click on the Github logo on the Social Auth Login block
+User can click on the GitHub logo on the Social Auth Login block
 You can also add a button or link anywhere on the site that points
 to /user/login/github, so theming and customizing the button or link
 is very flexible.
 
-When the user opens the /user/login/github link, it automatically takes
-user to Github Accounts for authentication. Github then returns the user to
-Drupal site. If we have an existing Drupal user with the same email address
-provided by Github, that user is logged in. Otherwise a new Drupal user is
-created.
+When the user opens the /user/login/github link, it automatically takes the user
+to GitHub for authentication. After GitHub has returned the user to your site,
+the module compares the user id or email address provided by GitHub. If the user
+has previously registered using GitHub or your site already has an account with
+the same email address, the user is logged in. If not, a new user account is
+created. Also, a GitHub account can be associated to an authenticated user.
 
 
 SUPPORT REQUESTS

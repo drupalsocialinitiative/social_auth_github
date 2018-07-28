@@ -11,7 +11,7 @@ use Drupal\Tests\social_auth\Functional\SocialAuthTestBase;
  *
  * @ingroup social_auth_github
  */
-class SocialAuthGithubLoginBlockTest extends SocialAuthTestBase {
+class SocialAuthGitHubLoginBlockTest extends SocialAuthTestBase {
 
   /**
    * Modules to enable.

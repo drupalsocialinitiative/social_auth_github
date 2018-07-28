@@ -5,13 +5,13 @@ namespace Drupal\Tests\social_auth_github\Functional;
 use Drupal\Tests\social_auth\Functional\SocialAuthTestBase;
 
 /**
- * Test Social Auth Github settings form.
+ * Test Social Auth GitHub settings form.
  *
  * @group social_auth
  *
  * @ingroup social_auth_github
  */
-class SocialAuthGithubSettingsFormTest extends SocialAuthTestBase {
+class SocialAuthGitHubSettingsFormTest extends SocialAuthTestBase {
 
   /**
    * Modules to enable.

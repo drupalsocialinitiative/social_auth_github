@@ -1,7 +1,7 @@
 social_auth_github.redirect_to_github:
   path: 'user/login/github'
   defaults:
-    _controller: '\Drupal\social_auth_github\Controller\GithubAuthController::redirectToProvider'
+    _controller: '\Drupal\social_auth_github\Controller\GitHubAuthController::redirectToProvider'
   requirements:
     # Anonymous users can log in, but authenticated users can also associate a new provider.
     _access: 'TRUE'
@@ -11,7 +11,7 @@ social_auth_github.redirect_to_github:
 social_auth_github.callback:
   path: 'user/login/github/callback'
   defaults:
-    _controller: '\Drupal\social_auth_github\Controller\GithubAuthController::callback'
+    _controller: '\Drupal\social_auth_github\Controller\GitHubAuthController::callback'
   requirements:
     # Anonymous users can log in, but authenticated users can also associate a new provider.
     _access: 'TRUE'
@@ -21,7 +21,7 @@ social_auth_github.callback:
 social_auth_github.settings_form:
   path: 'admin/config/social-api/social-auth/github'
   defaults:
-    _title: 'Social Auth Github settings'
-    _form: '\Drupal\social_auth_github\Form\GithubAuthSettingsForm'
+    _title: 'Social Auth GitHub settings'
+    _form: '\Drupal\social_auth_github\Form\GitHubAuthSettingsForm'
   requirements:
     _permission: 'administer social api authentication'

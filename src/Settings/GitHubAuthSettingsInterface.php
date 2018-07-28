@@ -3,9 +3,9 @@
 namespace Drupal\social_auth_github\Settings;
 
 /**
- * Defines an interface for Social Auth Github settings.
+ * Defines an interface for Social Auth GitHub settings.
  */
-interface GithubAuthSettingsInterface {
+interface GitHubAuthSettingsInterface {
 
   /**
    * Gets the client ID.

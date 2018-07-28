@@ -6,9 +6,9 @@ use Drupal\social_auth\AuthManager\OAuth2Manager;
 use Drupal\Core\Config\ConfigFactory;
 
 /**
- * Contains all the logic for Github login integration.
+ * Contains all the logic for GitHub login integration.
  */
-class GithubAuthManager extends OAuth2Manager {
+class GitHubAuthManager extends OAuth2Manager {
 
   /**
    * Constructor.
@@ -76,10 +76,7 @@ class GithubAuthManager extends OAuth2Manager {
    * {@inheritdoc}
    */
   public function getState() {
-    $state = $this->client->getState();
-
-    // Generate and return the URL where we should redirect the user.
-    return $state;
+    return $this->client->getState();
   }
 
 }

@@ -11,9 +11,9 @@ use Drupal\social_auth\Form\SocialAuthSettingsForm;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
- * Settings form for Social Auth Github.
+ * Settings form for Social Auth GitHub.
  */
-class GithubAuthSettingsForm extends SocialAuthSettingsForm {
+class GitHubAuthSettingsForm extends SocialAuthSettingsForm {
 
   /**
    * The request context.
@@ -78,9 +78,9 @@ class GithubAuthSettingsForm extends SocialAuthSettingsForm {
 
     $form['github_settings'] = [
       '#type' => 'details',
-      '#title' => $this->t('Github Client settings'),
+      '#title' => $this->t('GitHub Client settings'),
       '#open' => TRUE,
-      '#description' => $this->t('You need to first create a Github App at <a href="@github-dev">@github-dev</a>', ['@github-dev' => 'https://github.com/settings/developers']),
+      '#description' => $this->t('You need to first create a GitHub App at <a href="@github-dev">@github-dev</a>', ['@github-dev' => 'https://github.com/settings/developers']),
     ];
 
     $form['github_settings']['client_id'] = [
@@ -103,7 +103,7 @@ class GithubAuthSettingsForm extends SocialAuthSettingsForm {
       '#type' => 'textfield',
       '#disabled' => TRUE,
       '#title' => $this->t('Authorized redirect URIs'),
-      '#description' => $this->t('Copy this value to <em>Authorized redirect URIs</em> field of your Github App settings.'),
+      '#description' => $this->t('Copy this value to <em>Authorized redirect URIs</em> field of your GitHub App settings.'),
       '#default_value' => $GLOBALS['base_url'] . '/user/login/github/callback',
     ];
 
@@ -126,7 +126,7 @@ class GithubAuthSettingsForm extends SocialAuthSettingsForm {
       '#type' => 'textarea',
       '#title' => $this->t('API calls to be made to collect data'),
       '#default_value' => $config->get('endpoints'),
-      '#description' => $this->t('Define the Endpoints to be requested when user authenticates with Github for the first time<br>
+      '#description' => $this->t('Define the Endpoints to be requested when user authenticates with GitHub for the first time<br>
                                   Enter each endpoint in different lines in the format <em>endpoint</em>|<em>name_of_endpoint</em>.<br>
                                   <b>For instance:</b><br>
                                   /user/repos|user_repos'),

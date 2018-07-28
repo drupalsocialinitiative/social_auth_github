@@ -7,17 +7,17 @@ use Drupal\social_api\Plugin\NetworkManager;
 use Drupal\social_auth\Controller\OAuth2ControllerBase;
 use Drupal\social_auth\SocialAuthDataHandler;
 use Drupal\social_auth\User\UserAuthenticator;
-use Drupal\social_auth_github\GithubAuthManager;
+use Drupal\social_auth_github\GitHubAuthManager;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 
 /**
- * Returns responses for Social Auth Github routes.
+ * Returns responses for Social Auth GitHub routes.
  */
-class GithubAuthController extends OAuth2ControllerBase {
+class GitHubAuthController extends OAuth2ControllerBase {
 
   /**
-   * GithubAuthController constructor.
+   * GitHubAuthController constructor.
    *
    * @param \Drupal\Core\Messenger\MessengerInterface $messenger
    *   The messenger service.
@@ -25,7 +25,7 @@ class GithubAuthController extends OAuth2ControllerBase {
    *   Used to get an instance of social_auth_google network plugin.
    * @param \Drupal\social_auth\User\UserAuthenticator $user_authenticator
    *   Manages user login/registration.
-   * @param \Drupal\social_auth_github\GithubAuthManager $github_manager
+   * @param \Drupal\social_auth_github\GitHubAuthManager $github_manager
    *   Used to manage authentication methods.
    * @param \Symfony\Component\HttpFoundation\RequestStack $request
    *   Used to access GET parameters.
@@ -35,11 +35,11 @@ class GithubAuthController extends OAuth2ControllerBase {
   public function __construct(MessengerInterface $messenger,
                               NetworkManager $network_manager,
                               UserAuthenticator $user_authenticator,
-                              GithubAuthManager $github_manager,
+                              GitHubAuthManager $github_manager,
                               RequestStack $request,
                               SocialAuthDataHandler $data_handler) {
 
-    parent::__construct('Social Auth Github', 'social_auth_github', $messenger, $network_manager, $user_authenticator, $github_manager, $request, $data_handler);
+    parent::__construct('Social Auth GitHub', 'social_auth_github', $messenger, $network_manager, $user_authenticator, $github_manager, $request, $data_handler);
   }
 
   /**
@@ -59,7 +59,7 @@ class GithubAuthController extends OAuth2ControllerBase {
   /**
    * Response for path 'user/login/github/callback'.
    *
-   * Github returns the user here after user has authenticated.
+   * GitHub returns the user here after user has authenticated.
    */
   public function callback() {
 

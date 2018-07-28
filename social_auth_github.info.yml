@@ -1,6 +1,6 @@
-name: Social Auth Github
+name: Social Auth GitHub
 type: module
-description: 'Social Auth integration for Github.'
+description: 'Social Auth integration for GitHub.'
 package: Social
 core: 8.x
 configure: social_auth_github.settings_form

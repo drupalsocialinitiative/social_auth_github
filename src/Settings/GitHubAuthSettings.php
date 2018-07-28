@@ -5,9 +5,9 @@ namespace Drupal\social_auth_github\Settings;
 use Drupal\social_api\Settings\SettingsBase;
 
 /**
- * Defines methods to get Social Auth Github settings.
+ * Defines methods to get Social Auth GitHub settings.
  */
-class GithubAuthSettings extends SettingsBase implements GithubAuthSettingsInterface {
+class GitHubAuthSettings extends SettingsBase implements GitHubAuthSettingsInterface {
 
   /**
    * Client ID.

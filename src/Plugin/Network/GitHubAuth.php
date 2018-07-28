@@ -9,32 +9,32 @@ use Drupal\Core\Routing\RequestContext;
 use Drupal\social_auth\SocialAuthDataHandler;
 use Drupal\social_api\Plugin\NetworkBase;
 use Drupal\social_api\SocialApiException;
-use Drupal\social_auth_github\Settings\GithubAuthSettings;
+use Drupal\social_auth_github\Settings\GitHubAuthSettings;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use League\OAuth2\Client\Provider\Github;
 use Drupal\Core\Site\Settings;
 
 /**
- * Defines a Network Plugin for Social Auth Github.
+ * Defines a Network Plugin for Social Auth GitHub.
  *
  * @package Drupal\simple_github_connect\Plugin\Network
  *
  * @Network(
  *   id = "social_auth_github",
- *   social_network = "Github",
+ *   social_network = "GitHub",
  *   type = "social_auth",
  *   handlers = {
  *     "settings": {
- *       "class": "\Drupal\social_auth_github\Settings\GithubAuthSettings",
+ *       "class": "\Drupal\social_auth_github\Settings\GitHubAuthSettings",
  *       "config_id": "social_auth_github.settings"
  *     }
  *   }
  * )
  */
-class GithubAuth extends NetworkBase implements GithubAuthInterface {
+class GitHubAuth extends NetworkBase implements GitHubAuthInterface {
 
   /**
-   * The Social Auth Data Handler.
+   * The Social Auth data handler.
    *
    * @var \Drupal\social_auth\SocialAuthDataHandler
    */
@@ -79,7 +79,7 @@ class GithubAuth extends NetworkBase implements GithubAuthInterface {
   }
 
   /**
-   * GithubAuth constructor.
+   * GitHubAuth constructor.
    *
    * @param \Drupal\social_auth\SocialAuthDataHandler $data_handler
    *   The data handler.
@@ -122,8 +122,9 @@ class GithubAuth extends NetworkBase implements GithubAuthInterface {
   /**
    * Sets the underlying SDK library.
    *
-   * @return \League\OAuth2\Client\Provider\Github
+   * @return \League\OAuth2\Client\Provider\Github|false
    *   The initialized 3rd party library instance.
+   *   False if library could not be initialized.
    *
    * @throws SocialApiException
    *   If the SDK library does not exist.
@@ -132,9 +133,9 @@ class GithubAuth extends NetworkBase implements GithubAuthInterface {
 
     $class_name = '\League\OAuth2\Client\Provider\Github';
     if (!class_exists($class_name)) {
-      throw new SocialApiException(sprintf('The Github Library for the league oAuth not found. Class: %s.', $class_name));
+      throw new SocialApiException(sprintf('The GitHub library for PHP League OAuth2 not found. Class: %s.', $class_name));
     }
-    /* @var \Drupal\social_auth_github\Settings\GithubAuthSettings $settings */
+    /* @var \Drupal\social_auth_github\Settings\GitHubAuthSettings $settings */
     $settings = $this->settings;
 
     if ($this->validateConfig($settings)) {
@@ -153,20 +154,21 @@ class GithubAuth extends NetworkBase implements GithubAuthInterface {
 
       return new Github($league_settings);
     }
+
     return FALSE;
   }
 
   /**
    * Checks that module is configured.
    *
-   * @param \Drupal\social_auth_github\Settings\GithubAuthSettings $settings
-   *   The Github auth settings.
+   * @param \Drupal\social_auth_github\Settings\GitHubAuthSettings $settings
+   *   The GitHub auth settings.
    *
    * @return bool
    *   True if module is configured.
    *   False otherwise.
    */
-  protected function validateConfig(GithubAuthSettings $settings) {
+  protected function validateConfig(GitHubAuthSettings $settings) {
     $client_id = $settings->getClientId();
     $client_secret = $settings->getClientSecret();
     if (!$client_id || !$client_secret) {
