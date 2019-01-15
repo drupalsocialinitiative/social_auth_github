@@ -22,7 +22,7 @@ class GitHubAuthController extends OAuth2ControllerBase {
    * @param \Drupal\Core\Messenger\MessengerInterface $messenger
    *   The messenger service.
    * @param \Drupal\social_api\Plugin\NetworkManager $network_manager
-   *   Used to get an instance of social_auth_google network plugin.
+   *   Used to get an instance of social_auth_github network plugin.
    * @param \Drupal\social_auth\User\UserAuthenticator $user_authenticator
    *   Manages user login/registration.
    * @param \Drupal\social_auth_github\GitHubAuthManager $github_manager
@@ -30,7 +30,7 @@ class GitHubAuthController extends OAuth2ControllerBase {
    * @param \Symfony\Component\HttpFoundation\RequestStack $request
    *   Used to access GET parameters.
    * @param \Drupal\social_auth\SocialAuthDataHandler $data_handler
-   *   SocialAuthDataHandler object.
+   *   The Social Auth data handler.
    */
   public function __construct(MessengerInterface $messenger,
                               NetworkManager $network_manager,

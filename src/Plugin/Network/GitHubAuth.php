@@ -5,19 +5,18 @@ namespace Drupal\social_auth_github\Plugin\Network;
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Logger\LoggerChannelFactoryInterface;
-use Drupal\Core\Routing\RequestContext;
-use Drupal\social_auth\SocialAuthDataHandler;
+use Drupal\Core\Site\Settings;
+use Drupal\Core\Url;
 use Drupal\social_api\Plugin\NetworkBase;
 use Drupal\social_api\SocialApiException;
 use Drupal\social_auth_github\Settings\GitHubAuthSettings;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 use League\OAuth2\Client\Provider\Github;
-use Drupal\Core\Site\Settings;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Defines a Network Plugin for Social Auth GitHub.
  *
- * @package Drupal\simple_github_connect\Plugin\Network
+ * @package Drupal\social_auth_github\Plugin\Network
  *
  * @Network(
  *   id = "social_auth_github",
@@ -34,25 +33,11 @@ use Drupal\Core\Site\Settings;
 class GitHubAuth extends NetworkBase implements GitHubAuthInterface {
 
   /**
-   * The Social Auth data handler.
-   *
-   * @var \Drupal\social_auth\SocialAuthDataHandler
-   */
-  protected $dataHandler;
-
-  /**
    * The logger factory.
    *
    * @var \Drupal\Core\Logger\LoggerChannelFactory
    */
   protected $loggerFactory;
-
-  /**
-   * The request context object.
-   *
-   * @var \Drupal\Core\Routing\RequestContext
-   */
-  protected $requestContext;
 
   /**
    * The site settings.
@@ -66,14 +51,12 @@ class GitHubAuth extends NetworkBase implements GitHubAuthInterface {
    */
   public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
     return new static(
-      $container->get('social_auth.data_handler'),
       $configuration,
       $plugin_id,
       $plugin_definition,
       $container->get('entity_type.manager'),
       $container->get('config.factory'),
       $container->get('logger.factory'),
-      $container->get('router.request_context'),
       $container->get('settings')
     );
   }
@@ -81,8 +64,6 @@ class GitHubAuth extends NetworkBase implements GitHubAuthInterface {
   /**
    * GitHubAuth constructor.
    *
-   * @param \Drupal\social_auth\SocialAuthDataHandler $data_handler
-   *   The data handler.
    * @param array $configuration
    *   A configuration array containing information about the plugin instance.
    * @param string $plugin_id
@@ -95,27 +76,20 @@ class GitHubAuth extends NetworkBase implements GitHubAuthInterface {
    *   The configuration factory object.
    * @param \Drupal\Core\Logger\LoggerChannelFactoryInterface $logger_factory
    *   The logger factory.
-   * @param \Drupal\Core\Routing\RequestContext $requestContext
-   *   The Request Context Object.
    * @param \Drupal\Core\Site\Settings $settings
-   *   The settings factory.
+   *   The site settings.
    */
-  public function __construct(SocialAuthDataHandler $data_handler,
-                              array $configuration,
+  public function __construct(array $configuration,
                               $plugin_id,
                               array $plugin_definition,
                               EntityTypeManagerInterface $entity_type_manager,
                               ConfigFactoryInterface $config_factory,
                               LoggerChannelFactoryInterface $logger_factory,
-                              RequestContext $requestContext,
-                              Settings $settings
-  ) {
+                              Settings $settings) {
 
     parent::__construct($configuration, $plugin_id, $plugin_definition, $entity_type_manager, $config_factory);
 
-    $this->dataHandler = $data_handler;
     $this->loggerFactory = $logger_factory;
-    $this->requestContext = $requestContext;
     $this->siteSettings = $settings;
   }
 
@@ -135,6 +109,7 @@ class GitHubAuth extends NetworkBase implements GitHubAuthInterface {
     if (!class_exists($class_name)) {
       throw new SocialApiException(sprintf('The GitHub library for PHP League OAuth2 not found. Class: %s.', $class_name));
     }
+
     /* @var \Drupal\social_auth_github\Settings\GitHubAuthSettings $settings */
     $settings = $this->settings;
 
@@ -143,7 +118,7 @@ class GitHubAuth extends NetworkBase implements GitHubAuthInterface {
       $league_settings = [
         'clientId' => $settings->getClientId(),
         'clientSecret' => $settings->getClientSecret(),
-        'redirectUri' => $this->requestContext->getCompleteBaseUrl() . '/user/login/github/callback',
+        'redirectUri' => Url::fromRoute('social_auth_github.callback')->setAbsolute()->toString(),
       ];
 
       // Proxy configuration data for outward proxy.
