@@ -6,7 +6,7 @@ use Drupal\social_auth\AuthManager\OAuth2Manager;
 use Drupal\Core\Config\ConfigFactory;
 
 /**
- * Contains all the logic for GitHub login integration.
+ * Contains all the logic for GitHub OAuth2 authentication.
  */
 class GitHubAuthManager extends OAuth2Manager {
 

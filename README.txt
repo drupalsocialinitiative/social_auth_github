@@ -13,13 +13,13 @@ CONTENTS OF THIS FILE
 INTRODUCTION
 ------------
 
-Social Auth GitHub a GitHub Authentication integration for Drupal. It is based
-on the Social Auth and Social API projects
+Social Auth GitHub is a GitHub authentication integration for
+Drupal. It is based on the Social Auth and Social API projects
 
 It adds to the site:
- * A new url: /user/login/github.
- * A settings form on /admin/config/social-api/social-auth/github.
- * A GitHub logo in the Social Auth Login block.
+* A new url: /user/login/github.
+* A settings form at /admin/config/social-api/social-auth/github.
+* A GitHub logo in the Social Auth Login block.
 
 
 REQUIREMENTS
@@ -43,6 +43,9 @@ INSTALLATION
    https://drupal.org/documentation/install/modules-themes/modules-8
    for further information.
 
+ * A more comprehensive installation instruction for Drupal 8 can be found at
+   https://www.drupal.org/docs/8/modules/social-api/social-api-2x/social-auth-2x/social-auth-github-2x-installation
+
 
 CONFIGURATION
 -------------
@@ -58,34 +61,32 @@ CONFIGURATION
 HOW IT WORKS
 ------------
 
-User can click on the GitHub logo on the Social Auth Login block
+The user can click on the GitHub logo in the Social Auth Login block.
 You can also add a button or link anywhere on the site that points
 to /user/login/github, so theming and customizing the button or link
 is very flexible.
 
-When the user opens the /user/login/github link, it automatically takes the user
-to GitHub for authentication. After GitHub has returned the user to your site,
-the module compares the user id or email address provided by GitHub. If the user
-has previously registered using GitHub or your site already has an account with
-the same email address, the user is logged in. If not, a new user account is
-created. Also, a GitHub account can be associated to an authenticated user.
+After GitHub has returned the user to your site, the module compares the
+user id or email address provided by GitHub. If the user has previously
+registered using GitHub or your site already has an account with the same
+email address, the user is logged in. If not, a new user account is created.
+Also, a GitHub account can be associated with an authenticated user.
 
 
 SUPPORT REQUESTS
 ----------------
 
-Before posting a support request, carefully read the installation
-instructions provided in module documentation page.
+* Before posting a support request, carefully read the installation
+  instructions provided in module documentation page.
 
-Before posting a support request, check Recent log entries at
-admin/reports/dblog
+* Before posting a support request, check the Recent Log entries at
+  admin/reports/dblog
 
-Once you have done this, you can post a support request at module issue queue:
-https://www.drupal.org/social_auth_github/issues
+* Once you have done this, you can post a support request at module issue
+  queue: https://www.drupal.org/project/issues/social_auth_github
 
-When posting a support request, please inform what does the status report say
-at admin/reports/dblog and if you were able to see any errors in
-Recent log entries.
+* When posting a support request, please inform if you were able to see any
+  errors in the Recent Log entries.
 
 
 MAINTAINERS
