@@ -70,7 +70,7 @@ class GitHubAuthController extends OAuth2ControllerBase {
    */
   public function callback() {
 
-    /* @var \League\OAuth2\Client\Provider\GithubResourceOwner|null $profile */
+    /** @var \League\OAuth2\Client\Provider\GithubResourceOwner|null $profile */
     $profile = $this->processCallback();
 
     // If authentication was successful.
@@ -79,8 +79,17 @@ class GitHubAuthController extends OAuth2ControllerBase {
       // Gets (or not) extra initial data.
       $data = $this->userAuthenticator->checkProviderIsAssociated($profile->getId()) ? NULL : $this->providerManager->getExtraDetails();
 
+      // GitHub allows the user to leave their name empty. Use nickname in that
+      // case.
+      $name = $profile->getName() ?? $profile->getNickName();
+
       // If user information could be retrieved.
-      return $this->userAuthenticator->authenticateUser($profile->getName(), $profile->getEmail(), $profile->getId(), $this->providerManager->getAccessToken(), $profile->toArray()['avatar_url'], $data);
+      return $this->userAuthenticator->authenticateUser($name,
+                                                        $profile->getEmail(),
+                                                        $profile->getId(),
+                                                        $this->providerManager->getAccessToken(),
+                                                        $profile->toArray()['avatar_url'],
+                                                        $data);
     }
 
     return $this->redirect('user.login');
