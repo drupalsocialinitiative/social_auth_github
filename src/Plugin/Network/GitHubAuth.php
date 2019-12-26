@@ -44,7 +44,7 @@ class GitHubAuth extends NetworkBase implements GitHubAuthInterface {
       throw new SocialApiException(sprintf('The GitHub library for PHP League OAuth2 not found. Class: %s.', $class_name));
     }
 
-    /* @var \Drupal\social_auth_github\Settings\GitHubAuthSettings $settings */
+    /** @var \Drupal\social_auth_github\Settings\GitHubAuthSettings $settings */
     $settings = $this->settings;
 
     if ($this->validateConfig($settings)) {
